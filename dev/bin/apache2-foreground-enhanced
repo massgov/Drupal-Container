@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+# Allow a specific timezone to be set and passed into PHP
+if [ -n "$TZ" ]; then
+    # Configure PHP to use $TZ variable.
+    echo "date.timezone=$TZ" > $PHP_INI_DIR/conf.d/timezone.ini
+fi
+
+chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP /var/lock/apache2 /var/run/apache2 /var/log/apache2
+
+# Allow a script to run on startup.
+if [ -x "/on-docker-boot" ]; then
+  /on-docker-boot
+fi
+
+exec apache2-foreground
