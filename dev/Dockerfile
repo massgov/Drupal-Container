@@ -107,26 +107,11 @@ RUN apt-get update \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install development tools.
-# We install nvm, but also add node to $PATH directly
-# so we can use it through /bin/sh.
-ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION v6.11.0
-ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
-ENV PHANTOMJS_VERSION 2.1.1
-
-# Install development tools.
 RUN pecl install xdebug \
   && docker-php-ext-enable xdebug \
   && echo "xdebug.default_enable=0\nxdebug.coverage_enable=0" > $PHP_INI_DIR/conf.d/xdebug.ini \
-  # Install PhantomJS
-  && apt-get update \
-  # Install fonts and libtdl (for mounted docker binary usage)
-  && apt-get install -y libfontconfig libltdl7 \
-  && curl -sL "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64.tar.bz2" | tar jx \
-	&& mv phantomjs-${PHANTOMJS_VERSION}-linux-x86_64 /usr/local/bin/phantomjs \
-	# Install Blackfire Probe
-	&& version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
+  # Install Blackfire Probe
+  && version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
   && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
   && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp \
   && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
@@ -135,8 +120,5 @@ RUN pecl install xdebug \
   && mkdir -p /tmp/blackfire \
   && curl -A "Docker" -L https://blackfire.io/api/v1/releases/client/linux_static/amd64 | tar zxp -C /tmp/blackfire \
   && mv /tmp/blackfire/blackfire /usr/bin/blackfire \
-  && rm -Rf /tmp/blackfire \
-  # Clean up the leftovers
-	&& npm cache clean --force \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && rm -Rf /tmp/blackfire
 
