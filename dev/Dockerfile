@@ -109,7 +109,7 @@ RUN apt-get update \
 # Install development tools.
 RUN pecl install xdebug \
   && docker-php-ext-enable xdebug \
-  && echo "xdebug.default_enable=0\nxdebug.coverage_enable=0" > $PHP_INI_DIR/conf.d/xdebug.ini \
+  && echo "xdebug.remote_enable=on\nxdebug.remote_host=docker.for.mac.host.internal\nxdebug.remote_autostart=on\nxdebug.idekey=PHPSTORM" > $PHP_INI_DIR/conf.d/xdebug.ini \
   # Install Blackfire Probe
   && version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
   && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
