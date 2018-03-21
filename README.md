@@ -9,6 +9,10 @@ The variants of this image are:
   [`ci`](./ci/) - An image appropriate for use in continuous integration environments.  Closely mirrors Acquia's application servers, except that mail is disabled.
   [`dev`](./dev/) - An image appropriate for use in development environments.  Adds Xdebug, Blackfire, ...
 
+Environment variables
+------------------
+1. XDEBUG_ENABLE: Adds xdebug extension which is configured to autostart (assumes Docker for Mac).
+
 Making changes
 --------------
 
