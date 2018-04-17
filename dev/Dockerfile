@@ -108,11 +108,9 @@ RUN apt-get update \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install the Sendmail alternative suggested by Mailhog.
-# See https://blog.philipphauer.de/test-mail-server-php-docker-container/
-RUN curl -Lsf 'https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
-ENV PATH /usr/local/go/bin:$PATH
-RUN go get github.com/mailhog/mhsendmail \
-  && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
+RUN curl -Lsf https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
+  && mv mhsendmail_linux_amd64 /usr/bin/mhsendmail \
+  && chmod +x /usr/bin/mhsendmail
 
 
 # Install development tools.
