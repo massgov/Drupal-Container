@@ -6,6 +6,7 @@ ENV APACHE_DOCROOT /var/www/html
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_REQUEST_WORKERS 150
+ENV SENDMAIL_PATH /bin/true
 ENV PATH=/var/www/mass.local/vendor/bin:$PATH
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -105,6 +106,14 @@ RUN apt-get update \
   && npm install -g yarn \
   && npm cache clean --force \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install the Sendmail alternative suggested by Mailhog.
+# See https://blog.philipphauer.de/test-mail-server-php-docker-container/
+RUN curl -Lsf 'https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz' | tar -C '/usr/local' -xvzf -
+ENV PATH /usr/local/go/bin:$PATH
+RUN go get github.com/mailhog/mhsendmail \
+  && cp /root/go/bin/mhsendmail /usr/bin/mhsendmail
+
 
 # Install development tools.
 RUN pecl install xdebug \
