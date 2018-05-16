@@ -13,6 +13,7 @@ Environment variables
 ------------------
 1. XDEBUG_ENABLE: Adds xdebug extension which is configured to autostart (assumes Docker for Mac).
 2. MEMORY_LIMIT: Set the PHP memory limit that is used.
+3. SLUG: A project name. Used to add /var/www/$SLUG/vendor/bin to the $PATH.
 
 Making changes
 --------------

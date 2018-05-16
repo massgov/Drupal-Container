@@ -7,7 +7,8 @@ ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_REQUEST_WORKERS 150
 ENV MEMORY_LIMIT 256m
-ENV PATH=/var/www/vendor/bin:$PATH
+ENV SLUG mass.local
+ENV PATH=/var/www/$SLUG/vendor/bin:$PATH
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
       # for bz2
