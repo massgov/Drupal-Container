@@ -123,7 +123,7 @@ RUN curl -OL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhse
 
 
 # Install development tools.
-RUN pecl install xdebug \
+RUN pecl install xdebug-2.6.1 \
   && docker-php-ext-enable xdebug \
   && echo "xdebug.remote_enable=on\nxdebug.remote_autostart=on" > $PHP_INI_DIR/conf.d/xdebug.ini \
   # Install Blackfire Probe
