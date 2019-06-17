@@ -15,8 +15,10 @@ The variants of this image are:
 
 Environment variables
 ------------------
-1. XDEBUG_ENABLE: Adds xdebug extension which is configured to autostart (assumes Docker for Mac).
+1. XDEBUG_ENABLE: Adds xdebug extension which is configured to autostart.
 2. MEMORY_LIMIT: Set the PHP memory limit that is used.
+3. XDEBUG_REMOTE_HOST: Defaults to `host.docker.internal` (good for OSX). If using Linux, see https://github.com/docker/for-linux/issues/264 and https://biancatamayo.me/blog/2017/11/03/docker-add-host-ip/
+4. XDEBUG_IDEKEY: Defaults to `PHPSTORM`.
 
 Making changes
 --------------

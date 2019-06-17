@@ -8,6 +8,8 @@ ENV APACHE_RUN_GROUP www-data
 ENV APACHE_REQUEST_WORKERS 150
 ENV SENDMAIL_PATH /bin/true
 ENV MEMORY_LIMIT 256m
+ENV XDEBUG_REMOTE_HOST=host.docker.internal
+ENV XDEBUG_IDEKEY=PHPSTORM
 ENV PATH=/var/www/mass.local/vendor/bin:$PATH
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -121,9 +123,9 @@ RUN curl -OL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhse
 
 
 # Install development tools.
-RUN pecl install xdebug \
+RUN pecl install xdebug-2.6.1 \
   && docker-php-ext-enable xdebug \
-  && echo "xdebug.remote_enable=on\nxdebug.remote_host=docker.for.mac.host.internal\nxdebug.remote_autostart=on\nxdebug.idekey=PHPSTORM" > $PHP_INI_DIR/conf.d/xdebug.ini \
+  && echo "xdebug.remote_enable=on\nxdebug.remote_autostart=on" > $PHP_INI_DIR/conf.d/xdebug.ini \
   # Install Blackfire Probe
   && version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
   && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
