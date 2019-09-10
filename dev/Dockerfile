@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       # for memcached
       libz-dev libmemcached-dev \
       # for mysql
-      mysql-client \
+      mariadb-client \
       # for drush ma:deploy
       wget \
       # for drush sql:sync
