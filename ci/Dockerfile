@@ -1,5 +1,5 @@
 
-FROM php:7.1-apache
+FROM php:7.2-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APACHE_DOCROOT /var/www/html
@@ -59,7 +59,6 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
       gettext \
       intl \
       ldap \
-      mcrypt \
       mysqli \
       opcache \
       pcntl \

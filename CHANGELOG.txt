@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [1.0.12] - 4-23-19
+### Changed
+- Upgraded to PHP 7.2
+
 ## [1.0.6] - 5-14-18
 ### Added
 - Add memcached PECL extension
