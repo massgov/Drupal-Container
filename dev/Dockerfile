@@ -13,6 +13,8 @@ ENV XDEBUG_IDEKEY=PHPSTORM
 ENV PATH=/var/www/mass.local/vendor/bin:$PATH
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+      #for life
+      unzip \
       # for bz2
       bzip2 libbz2-dev \
       # for ftp
