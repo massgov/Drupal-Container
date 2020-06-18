@@ -1,5 +1,5 @@
 
-FROM php:7.4-apache
+FROM php:7.3-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APACHE_DOCROOT /var/www/html
