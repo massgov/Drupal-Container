@@ -1,5 +1,5 @@
 
-FROM php:7.2-apache
+FROM php:7.3-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APACHE_DOCROOT /var/www/html
@@ -10,6 +10,10 @@ ENV MEMORY_LIMIT 256m
 ENV PATH=/var/www/vendor/bin:$PATH
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+      # php7.3+ needs zlib1g-dev and libzip-dev for the zip extension
+      # https://github.com/docker-library/php/issues/61#issuecomment-468874705
+      zlib1g-dev \
+      libzip-dev \
       #for life
       unzip \
       # for bz2
@@ -49,7 +53,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libyaml-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN docker-php-ext-configure gd  \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-install -j$(nproc) \
       bcmath \
@@ -74,8 +78,8 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
       zip \
     && pecl install apcu memcached raphf propro yaml imagick \
     && docker-php-ext-enable apcu memcached raphf propro yaml imagick \
-    && pecl install pecl_http-3.1.0 \
-    && docker-php-ext-enable http \
+#    && pecl install pecl_http-3.1.0 \
+#    && docker-php-ext-enable http \
     && printf "upload_max_filesize = 128M\npost_max_size = 128M" > $PHP_INI_DIR/conf.d/00-max_filesize.ini
 
 # Configure Apache:
