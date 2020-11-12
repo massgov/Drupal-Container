@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Changed
 - Upgraded to PHP 7.3
+- Composer 2
 
 ## [1.0.12] - 4-23-19
 ### Changed
