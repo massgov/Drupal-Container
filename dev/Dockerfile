@@ -1,5 +1,5 @@
 
-FROM php:7.3-apache
+FROM php:7.4-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APACHE_DOCROOT /var/www/html
@@ -82,8 +82,6 @@ RUN docker-php-ext-configure gd \
       zip \
     && pecl install apcu memcached raphf propro yaml imagick \
     && docker-php-ext-enable apcu memcached raphf propro yaml imagick \
-#    && pecl install pecl_http-3.1.0 \
-#    && docker-php-ext-enable http \
     && printf "upload_max_filesize = 128M\npost_max_size = 128M" > $PHP_INI_DIR/conf.d/00-max_filesize.ini
 
 # Configure Apache:
@@ -97,9 +95,6 @@ RUN a2enmod rewrite headers expires \
 # Install CLI tools:
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/bin/composer \
   && mkdir /usr/share/composer \
-  && cd /usr/share/composer \
-  && composer init --no-interaction && composer config bin-dir /usr/local/bin \
-  && rm -r /root/.composer/cache \
   && curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz | tar -C /usr/local/bin -xzv \
   && chmod +x /usr/local/bin/dockerize \
   && ssh-keyscan github.com >> /etc/ssh/ssh_known_hosts \
@@ -129,7 +124,7 @@ RUN curl -OL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhse
 
 
 # Install development tools.
-RUN pecl install xdebug-2.9.6 \
+RUN pecl install xdebug-2.9.8 \
   && docker-php-ext-enable xdebug \
   && echo "xdebug.remote_enable=on\nxdebug.remote_autostart=on" > $PHP_INI_DIR/conf.d/xdebug.ini \
   # Install Blackfire Probe
