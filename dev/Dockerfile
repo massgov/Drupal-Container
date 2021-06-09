@@ -95,9 +95,6 @@ RUN a2enmod rewrite headers expires \
 # Install CLI tools:
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/bin/composer \
   && mkdir /usr/share/composer \
-  && cd /usr/share/composer \
-  && composer init --no-interaction && composer config bin-dir /usr/local/bin \
-  && rm -r /root/.composer/cache \
   && curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.0/dockerize-linux-amd64-v0.6.0.tar.gz | tar -C /usr/local/bin -xzv \
   && chmod +x /usr/local/bin/dockerize \
   && ssh-keyscan github.com >> /etc/ssh/ssh_known_hosts \
