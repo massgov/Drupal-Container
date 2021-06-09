@@ -1,5 +1,5 @@
 
-FROM php:7.3-apache
+FROM php:7.4-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APACHE_DOCROOT /var/www/html
@@ -79,8 +79,6 @@ RUN docker-php-ext-configure gd  \
       zip \
     && pecl install apcu memcached raphf propro yaml imagick \
     && docker-php-ext-enable apcu memcached raphf propro yaml imagick \
-#    && pecl install pecl_http-3.1.0 \
-#    && docker-php-ext-enable http \
     && printf "upload_max_filesize = 128M\npost_max_size = 128M" > $PHP_INI_DIR/conf.d/00-max_filesize.ini
 
 # Configure Apache:
