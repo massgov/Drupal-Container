@@ -1,5 +1,5 @@
 
-FROM php:7.4-apache
+FROM php:8.0-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APACHE_DOCROOT /var/www/html
@@ -26,8 +26,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libicu-dev \
       # for dom
       libxml2-dev \
-      # for ldap
-      libldap2-dev \
       # for mcrypt
       libmcrypt-dev \
       # for memcached
@@ -55,7 +53,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN docker-php-ext-configure gd  \
-    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-install -j$(nproc) \
       bcmath \
       bz2 \
@@ -65,21 +62,22 @@ RUN docker-php-ext-configure gd  \
       gd \
       gettext \
       intl \
-      ldap \
       mysqli \
       opcache \
       pcntl \
       pdo_mysql \
       shmop \
       soap \
-      sockets \
       sysvmsg \
       sysvsem \
       sysvshm \
       zip \
-    && pecl install apcu memcached raphf propro yaml imagick \
-    && docker-php-ext-enable apcu memcached raphf propro yaml imagick \
+    && pecl install apcu memcached raphf yaml imagick \
+    && docker-php-ext-enable apcu memcached raphf yaml imagick \
     && printf "upload_max_filesize = 128M\npost_max_size = 128M" > $PHP_INI_DIR/conf.d/00-max_filesize.ini
+
+#https://github.com/docker-library/php/issues/1245#issuecomment-1020294919
+RUN CFLAGS="$CFLAGS -D_GNU_SOURCE" docker-php-ext-install sockets
 
 # Configure Apache:
 RUN a2enmod rewrite headers expires \
@@ -110,6 +108,7 @@ RUN apt-get update \
   && echo 'deb-src https://deb.nodesource.com/node_10.x jessie main' >> /etc/apt/sources.list.d/nodesource.list \
   && apt-get update \
   && apt-get install -y nodejs \
+  && apt-get install -y npm \
   && npm install -g yarn \
   && npm cache clean --force \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

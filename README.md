@@ -23,7 +23,7 @@ Environment variables
 Making changes
 --------------
 
-1. Make changes to the Dockerfile for the desired variant.
+1. Make changes to the Dockerfile for the desired variant (2022 update: we only use ci variant)
 2. Test changes by building the image locally using `docker-compose build`
 3. Note changes in [CHANGELOG.txt](./CHANGELOG.txt).
 4. Commit and push changes to this repository: 
