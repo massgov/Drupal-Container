@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 ### Changed
+- Upgraded to PHP 8.2 (ci variant only. dev is abandoned).
 - Upgraded to PHP 8.1 (ci variant only. dev is abandoned).
 - Upgraded to PHP 8.0. Removed LDAP and propro (ci variant only. dev is abandoned).
 - Upgraded to PHP 7.4
