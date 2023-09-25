@@ -1,5 +1,5 @@
 
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APACHE_DOCROOT /var/www/html
