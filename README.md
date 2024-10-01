@@ -11,7 +11,7 @@ Variants
 --------
 The variants of this image are:
   [`ci`](./ci/) - An image appropriate for use in continuous integration environments.  Closely mirrors Acquia's application servers, except that mail is disabled.
-  [`dev`](./dev/) - An image appropriate for use in development environments.  Adds Xdebug, Blackfire, ...
+  [`dev`](./dev/) - _Unused_. An image appropriate for use in development environments.  Adds Xdebug, Blackfire, ...
 
 Environment variables
 ------------------

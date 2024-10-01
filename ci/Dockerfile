@@ -1,5 +1,5 @@
 
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APACHE_DOCROOT /var/www/html
@@ -72,9 +72,19 @@ RUN docker-php-ext-configure gd  \
       sysvsem \
       sysvshm \
       zip \
-    && pecl install apcu memcached raphf yaml imagick \
-    && docker-php-ext-enable apcu memcached raphf yaml imagick \
+    && pecl install apcu memcached raphf yaml \
+    && docker-php-ext-enable apcu memcached raphf yaml \
     && printf "upload_max_filesize = 128M\npost_max_size = 128M" > $PHP_INI_DIR/conf.d/00-max_filesize.ini
+
+# Needed due to https://stackoverflow.com/questions/78811022/adding-php-imagick-extension-to-alpine-docker-container-fails/78914100#78914100
+RUN curl -L -o /tmp/imagick.tar.gz https://github.com/Imagick/imagick/archive/7088edc353f53c4bc644573a79cdcd67a726ae16.tar.gz \
+&& tar --strip-components=1 -xf /tmp/imagick.tar.gz \
+&& phpize \
+&& ./configure \
+&& make \
+&& make install \
+&& echo "extension=imagick.so" > /usr/local/etc/php/conf.d/ext-imagick.ini \
+&& rm -rf /tmp/*
 
 #https://github.com/docker-library/php/issues/1245#issuecomment-1020294919
 RUN CFLAGS="$CFLAGS -D_GNU_SOURCE" docker-php-ext-install sockets
